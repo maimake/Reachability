@@ -8,15 +8,15 @@
 
 #import "TMViewController.h"
 
-#import "Reachability.h"
+#import "MaiReachability.h"
 
 @interface TMViewController ()
 
 -(void)reachabilityChanged:(NSNotification*)note;
 
-@property(strong) Reachability * googleReach;
-@property(strong) Reachability * localWiFiReach;
-@property(strong) Reachability * internetConnectionReach;
+@property(strong) MaiReachability * googleReach;
+@property(strong) MaiReachability * localWiFiReach;
+@property(strong) MaiReachability * internetConnectionReach;
 
 @end
 
@@ -57,13 +57,13 @@
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     //
-    // create a Reachability object for www.google.com
+    // create a MaiReachability object for www.google.com
 
-    self.googleReach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    self.googleReach = [MaiReachability reachabilityWithHostname:@"www.google.com"];
     
-    self.googleReach.reachableBlock = ^(Reachability * reachability)
+    self.googleReach.reachableBlock = ^(MaiReachability * MaiReachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Reachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Reachable(%@)", MaiReachability.currentReachabilityString];
         NSLog(@"%@", temp);
 
         // to update UI components from a block callback
@@ -75,9 +75,9 @@
         }];
     };
     
-    self.googleReach.unreachableBlock = ^(Reachability * reachability)
+    self.googleReach.unreachableBlock = ^(MaiReachability * MaiReachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Unreachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Unreachable(%@)", MaiReachability.currentReachabilityString];
         NSLog(@"%@", temp);
 
         // to update UI components from a block callback
@@ -96,16 +96,16 @@
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     //
-    // create a reachability for the local WiFi
+    // create a MaiReachability for the local WiFi
 
-    self.localWiFiReach = [Reachability reachabilityForLocalWiFi];
+    self.localWiFiReach = [MaiReachability reachabilityForLocalWiFi];
 
     // we ONLY want to be reachable on WIFI - cellular is NOT an acceptable connectivity
     self.localWiFiReach.reachableOnWWAN = NO;
 
-    self.localWiFiReach.reachableBlock = ^(Reachability * reachability)
+    self.localWiFiReach.reachableBlock = ^(MaiReachability * MaiReachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Reachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Reachable(%@)", MaiReachability.currentReachabilityString];
         NSLog(@"%@", temp);
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -114,9 +114,9 @@
         });
     };
 
-    self.localWiFiReach.unreachableBlock = ^(Reachability * reachability)
+    self.localWiFiReach.unreachableBlock = ^(MaiReachability * MaiReachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Unreachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Unreachable(%@)", MaiReachability.currentReachabilityString];
 
         NSLog(@"%@", temp);
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -132,13 +132,13 @@
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     //
-    // create a Reachability object for the internet
+    // create a MaiReachability object for the internet
 
-    self.internetConnectionReach = [Reachability reachabilityForInternetConnection];
+    self.internetConnectionReach = [MaiReachability reachabilityForInternetConnection];
 
-    self.internetConnectionReach.reachableBlock = ^(Reachability * reachability)
+    self.internetConnectionReach.reachableBlock = ^(MaiReachability * MaiReachability)
     {
-        NSString * temp = [NSString stringWithFormat:@" InternetConnection Says Reachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@" InternetConnection Says Reachable(%@)", MaiReachability.currentReachabilityString];
         NSLog(@"%@", temp);
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -147,9 +147,9 @@
         });
     };
 
-    self.internetConnectionReach.unreachableBlock = ^(Reachability * reachability)
+    self.internetConnectionReach.unreachableBlock = ^(MaiReachability * MaiReachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"InternetConnection Block Says Unreachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@"InternetConnection Block Says Unreachable(%@)", MaiReachability.currentReachabilityString];
 
         NSLog(@"%@", temp);
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -197,7 +197,7 @@
 
 -(void)reachabilityChanged:(NSNotification*)note
 {
-    Reachability * reach = [note object];
+    MaiReachability * reach = [note object];
 
     if(reach == self.googleReach)
     {
